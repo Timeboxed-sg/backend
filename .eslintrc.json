@@ -6,16 +6,30 @@
     },
     "extends": [
         "airbnb-base",
-        "plugin:import/typescript",
         "airbnb-typescript"
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
         "ecmaVersion": 12
     },
+    "overrides": [
+        {
+          "files": ["*.ts", "*.tsx"], // Your TypeScript files extension
+          "parserOptions": {
+            "project": ["./tsconfig.json"] // Specify it only for TypeScript files
+          }
+        }
+      ],
     "plugins": [
         "@typescript-eslint"
     ],
     "rules": {
+        "react/jsx-filename-extension": [0],
+        "import/extensions": "off",
+        "import/prefer-default-export": 0,
+        "no-restricted-syntax": "off",
+        "guard-for-in": "off",
+        "no-case-declarations": "off",
+        "no-underscore-dangle": "off"
     }
 }
