@@ -1,6 +1,11 @@
 {
     "host": 8080,
-    "psql": {
-        
+    "postgres": {
+        "username": "timeboxedadmin",
+        "password": "password",
+        "database": "timeboxed",
+        "host": "127.0.0.1",
+        "port": 5432,
+        "dialect": "postgres"
     }
 }
