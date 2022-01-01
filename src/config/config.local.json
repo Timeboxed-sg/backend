@@ -1,11 +1,9 @@
 {
     "host": 8080,
-    "postgres": {
-        "username": "timeboxedadmin",
+    "mongodb": {
+        "username": "timeboxed-admin",
         "password": "password",
-        "database": "timeboxed",
-        "host": "127.0.0.1",
-        "port": 5432,
-        "dialect": "postgres"
+        "url": "mongodb://localhost:27017",
+        "dbName": "timeboxed-db"
     }
 }

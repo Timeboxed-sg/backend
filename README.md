@@ -11,10 +11,9 @@ Use brew to install the following:
 
 - Node (v16) Use NVM for version management
 - NPM (v8)
-- postgres (v14.1)
-- sequelize-cli
+- MongoDB (v5.0)
 - Postman
-- Postgres Visualizer (pgAdmin v4)
+- Mongodb Visualiser (NoSqlBooster)
 
 
 ### Steps
