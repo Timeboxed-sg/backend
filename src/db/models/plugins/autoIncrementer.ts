@@ -27,7 +27,7 @@ export function plugin(schema, options) {
 
   const Autoincr: any = mongoose.model(autoincrModelName);
 
-  schema.pre('save', (next) => {
+  schema.pre('save', function (next) {
     const doc = this;
     if (doc.isNew) {
       const increment = 1 + fakeIncrement;

@@ -5,5 +5,6 @@
         "password": "password",
         "url": "mongodb://localhost:27017",
         "dbName": "timeboxed-db"
-    }
+    },
+    "passwordSecretKey": "oTX7UpC3BYrs4979iOEmkJOy6PpMNXH1"
 }

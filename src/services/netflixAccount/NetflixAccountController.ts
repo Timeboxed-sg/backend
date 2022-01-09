@@ -1,8 +1,7 @@
 import { Router } from 'express';
 import mongoose from 'mongoose';
-import bcrypt from 'bcrypt';
 import NetflixAccount from '../../db/models/netflixAccount';
-import { sendJSONResponse } from '../../utils';
+import { encryptPassword, sendJSONResponse } from '../../utils';
 
 const router = Router();
 
@@ -10,14 +9,13 @@ router.post('/add-account', async (req, res) => {
   const account = new NetflixAccount({
     _id: new mongoose.Types.ObjectId(),
     email: req.body.email,
-    password: req.body.password,
     description: req.body.description,
-    totalUsersAllowed: req.body.totalUsersAllowes,
+    totalUsersAllowed: req.body.totalUsersAllowed,
     screensRemaining: req.body.screensRemaining,
+    isActive: req.body.isActive,
   });
 
-  const salt = await bcrypt.genSalt(10);
-  account.password = await bcrypt.hash(req.body.password, salt);
+  account.encryptedPassword = encryptPassword(req.body.password);
 
   const acc = await account.save();
 

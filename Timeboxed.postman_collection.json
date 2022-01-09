@@ -15,7 +15,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"email\": \"tshradheya@gmail\"\n}",
+					"raw": "",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -45,7 +45,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"email\": \"acct2@gmail.com\",\n    \"password\": \"somethng\",\n    \"description\": \"Acct 2 with screens\",\n    \"totalUsersAllowed\": 4,\n    \"screensRemaining\": 2\n}",
+					"raw": "{\n    \"email\": \"acct4@gmail.com\",\n    \"password\": \"something\",\n    \"description\": \"Acct 3 with screens\",\n    \"totalUsersAllowed\": 4,\n    \"screensRemaining\": 4,\n    \"isActive\": true\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -96,6 +96,75 @@
 						"pass",
 						"buy-pass",
 						"0"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Access Pass",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"passToken\": \"027aadc1-5147-4318-832c-93306427f7e6\"\n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/pass/access-pass",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"pass",
+						"access-pass"
+					],
+					"query": [
+						{
+							"key": "provider",
+							"value": "0",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Expire Pass",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"passToken\": \"027aadc1-5147-4318-832c-93306427f7e6\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/pass/mark-expired",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"pass",
+						"mark-expired"
 					],
 					"query": [
 						{

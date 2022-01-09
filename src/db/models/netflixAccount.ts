@@ -1,5 +1,4 @@
 import mongoose, { Schema } from 'mongoose';
-import bcrypt from 'bcrypt';
 import * as autoincr from './plugins/autoIncrementer';
 
 const netflixAccountSchema = new mongoose.Schema({
@@ -9,9 +8,13 @@ const netflixAccountSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
-  password: {
-    type: String,
-    required: true,
+  encryptedPassword: {
+    content: {
+      type: String,
+    },
+    iv: {
+      type: String,
+    },
   },
   description: {
     type: String,
@@ -19,10 +22,11 @@ const netflixAccountSchema = new mongoose.Schema({
   },
   isActive: {
     type: Boolean,
-    default: true,
+    default: false,
   },
   totalUsersAllowed: {
     type: Number,
+    default: 0,
   },
   screensRemaining: {
     type: Number,
@@ -32,15 +36,7 @@ const netflixAccountSchema = new mongoose.Schema({
   timestamps: true,
 });
 
-netflixAccountSchema.methods = {
-  generateHash(password) {
-    return bcrypt.hashSync(password, bcrypt.genSaltSync(8));
-  },
-
-  validPassword(password) {
-    return bcrypt.compareSync(password, this.password);
-  },
-};
+netflixAccountSchema.methods = {};
 
 netflixAccountSchema.plugin(autoincr.plugin, { model: 'NetflixAccount', tid: 'netflixAccountId' });
 const NetflixAccount = mongoose.model('NetflixAccount', netflixAccountSchema);

@@ -5,7 +5,7 @@ import moment from 'moment';
 import NetflixAccount from '../../db/models/netflixAccount';
 import TimeboxedPass from '../../db/models/timeboxedPass';
 import * as providers from '../../enums/provider';
-import { getRandomInt, sendJSONResponse } from '../../utils';
+import { decryptPassword, getRandomInt, sendJSONResponse } from '../../utils';
 
 const router = Router();
 
@@ -17,6 +17,9 @@ router.post('/buy-pass/:provider', async (req: any, res) => {
         screensRemaining: { $gt: 0 },
         isActive: true,
       });
+      if (availableAccounts.length === 0) {
+        return sendJSONResponse(res, 200, 'Sorry its all sold out!');
+      }
 
       const acctToAssign = availableAccounts[getRandomInt(0, availableAccounts.length - 1)];
 
@@ -30,7 +33,7 @@ router.post('/buy-pass/:provider', async (req: any, res) => {
         mobileNumber: req.body.mobileNumber,
         subscriptionService: provider,
         assignedAccount: acctToAssign._id,
-        usageToken: uuidv4(),
+        passToken: uuidv4(),
         numOfDays: durationOfPass,
         startDate: moment.utc(),
         endDate: moment.utc().add(durationOfPass, 'days'),
@@ -38,13 +41,70 @@ router.post('/buy-pass/:provider', async (req: any, res) => {
 
       const savedPass = await timeboxedPass.save();
 
-      sendJSONResponse(res, 200, 'OK', savedPass);
+      return sendJSONResponse(res, 200, 'OK', savedPass);
+      break;
+
+    default:
+      return sendJSONResponse(res, 200, 'Not supported yet');
+      break;
+  }
+});
+
+router.post('/access-pass', async (req, res) => {
+  const { passToken } = req.body;
+
+  const currentUtcTime = moment.utc();
+
+  const pass = await TimeboxedPass.findOne({
+    passToken,
+    endDate: { $gt: currentUtcTime },
+  }).exec();
+
+  if (!pass) {
+    return sendJSONResponse(res, 204, 'Pass not present/valid');
+  }
+
+  if (pass.isExpired) {
+    return sendJSONResponse(res, 200, 'Pass marked as expired');
+  }
+
+  const providerAccountCreds = {
+    username: '',
+    password: '',
+  };
+  switch (pass.subscriptionService) {
+    case providers.en.NETFLIX.ordinal:
+      const netflixAccount = await NetflixAccount.findById(pass.assignedAccount);
+
+      providerAccountCreds.username = netflixAccount.email;
+      providerAccountCreds.password = decryptPassword(netflixAccount.encryptedPassword);
+
       break;
 
     default:
       sendJSONResponse(res, 200, 'Not supported yet');
       break;
   }
+
+  return sendJSONResponse(res, 200, 'Credentials', providerAccountCreds);
+});
+
+router.post('/mark-expired', async (req, res) => {
+  const { passToken } = req.body;
+
+  const pass = await TimeboxedPass.findOne({
+    passToken,
+  }).exec();
+
+  if (!pass) {
+    return sendJSONResponse(res, 204, 'Pass not present/valid');
+  }
+
+  pass.isExpired = true;
+
+  const updatedPass = await pass.save();
+
+  return sendJSONResponse(res, 200, 'OK', updatedPass);
 });
 
 export default router;
