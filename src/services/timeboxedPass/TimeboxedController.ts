@@ -5,7 +5,11 @@ import moment from 'moment';
 import NetflixAccount from '../../db/models/netflixAccount';
 import TimeboxedPass from '../../db/models/timeboxedPass';
 import * as providers from '../../enums/provider';
-import { decryptPassword, getRandomInt, sendJSONResponse } from '../../utils';
+import {
+  decryptPassword, getRandomInt, sendBadRequest, sendJSONResponse,
+} from '../../utils';
+import { sendPassTokenEmail } from '../sendgrid';
+import { sendPassTokenMsg } from '../twilio';
 
 const router = Router();
 
@@ -13,40 +17,45 @@ router.post('/buy-pass/:provider', async (req: any, res) => {
   const provider = Number(req.params.provider);
   switch (provider) {
     case providers.en.NETFLIX.ordinal:
-      const availableAccounts = await NetflixAccount.find({
-        screensRemaining: { $gt: 0 },
-        isActive: true,
-      });
-      if (availableAccounts.length === 0) {
-        return sendJSONResponse(res, 200, 'Sorry its all sold out!');
+
+      try {
+        const availableAccounts = await NetflixAccount.find({
+          screensRemaining: { $gt: 0 },
+          isActive: true,
+        });
+        if (availableAccounts.length === 0) {
+          return sendJSONResponse(res, 200, 'Sorry its all sold out!');
+        }
+
+        const acctToAssign = availableAccounts[getRandomInt(0, availableAccounts.length - 1)];
+
+        acctToAssign.screensRemaining -= 1;
+        await acctToAssign.save();
+        const durationOfPass = Number(req.body.duration);
+
+        const timeboxedPass = new TimeboxedPass({
+          _id: new mongoose.Types.ObjectId(),
+          userEmail: req.body.email,
+          mobileNumber: req.body.mobileNumber,
+          subscriptionService: provider,
+          assignedAccount: acctToAssign._id,
+          passToken: uuidv4(),
+          numOfDays: durationOfPass,
+          startDate: moment.utc(),
+          endDate: moment.utc().add(durationOfPass, 'days'),
+        });
+
+        const savedPass = await timeboxedPass.save();
+
+        sendPassTokenEmail(savedPass.userEmail, savedPass.passToken);
+        await sendPassTokenMsg(savedPass.mobileNumber, savedPass.passToken);
+        return sendJSONResponse(res, 200, 'OK', savedPass);
+      } catch (e) {
+        return sendBadRequest(res, 400, e);
       }
-
-      const acctToAssign = availableAccounts[getRandomInt(0, availableAccounts.length - 1)];
-
-      acctToAssign.screensRemaining -= 1;
-      await acctToAssign.save();
-      const durationOfPass = Number(req.body.duration);
-
-      const timeboxedPass = new TimeboxedPass({
-        _id: new mongoose.Types.ObjectId(),
-        userEmail: req.body.email,
-        mobileNumber: req.body.mobileNumber,
-        subscriptionService: provider,
-        assignedAccount: acctToAssign._id,
-        passToken: uuidv4(),
-        numOfDays: durationOfPass,
-        startDate: moment.utc(),
-        endDate: moment.utc().add(durationOfPass, 'days'),
-      });
-
-      const savedPass = await timeboxedPass.save();
-
-      return sendJSONResponse(res, 200, 'OK', savedPass);
-      break;
 
     default:
       return sendJSONResponse(res, 200, 'Not supported yet');
-      break;
   }
 });
 

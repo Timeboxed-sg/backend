@@ -6,5 +6,11 @@
         "url": "mongodb://localhost:27017",
         "dbName": "timeboxed-db"
     },
-    "passwordSecretKey": "oTX7UpC3BYrs4979iOEmkJOy6PpMNXH1"
+    "passwordSecretKey": "oTX7UpC3BYrs4979iOEmkJOy6PpMNXH1",
+    "sendgrid": "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",
+    "twilio": {
+        "accountSid": "ACcb104d1c3d63ce3534c21afbb957c898",
+        "authToken": "c2b997e9874f7be900302af5b4d3c1ef",
+        "messagingSid": "MGa8ec1b6c54ff096985e05c58b0ecf492"
+    }
 }
