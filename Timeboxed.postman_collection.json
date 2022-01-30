@@ -23,12 +23,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/v1/health-check",
-					"protocol": "http",
+					"raw": "{{url}}/api/v1/health-check",
 					"host": [
-						"localhost"
+						"{{url}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"v1",
@@ -45,7 +43,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"email\": \"acct4@gmail.com\",\n    \"password\": \"something\",\n    \"description\": \"Acct 3 with screens\",\n    \"totalUsersAllowed\": 4,\n    \"screensRemaining\": 4,\n    \"isActive\": true\n}",
+					"raw": "{\n    \"email\": \"netflixbuddies4444@gmail.com\",\n    \"password\": \"Flix2021$\",\n    \"description\": \"Shraddy's account\",\n    \"totalUsersAllowed\": 4,\n    \"screensRemaining\": 1,\n    \"isActive\": true\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -53,12 +51,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/v1/netflix/add-account",
-					"protocol": "http",
+					"raw": "{{url}}/api/v1/netflix/add-account",
 					"host": [
-						"localhost"
+						"{{url}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"v1",
@@ -84,12 +80,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/v1/pass/buy-pass/0",
-					"protocol": "http",
+					"raw": "{{url}}/api/v1/pass/buy-pass/0",
 					"host": [
-						"localhost"
+						"{{url}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"v1",
@@ -108,7 +102,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"passToken\": \"027aadc1-5147-4318-832c-93306427f7e6\"\n\n}",
+					"raw": "{\n    \"passToken\": \"027aadc1-5147-4318-832c-93306427f7e6\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -116,12 +110,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/v1/pass/access-pass",
-					"protocol": "http",
+					"raw": "{{url}}/api/v1/pass/access-pass",
 					"host": [
-						"localhost"
+						"{{url}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"v1",
@@ -154,12 +146,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/v1/pass/mark-expired",
-					"protocol": "http",
+					"raw": "{{url}}/api/v1/pass/mark-expired",
 					"host": [
-						"localhost"
+						"{{url}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"v1",
