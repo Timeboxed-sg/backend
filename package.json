@@ -5,7 +5,7 @@
   "main": "server.ts",
   "scripts": {
     "start": "nodemon ./server.ts",
-    "build": "rimraf ./build && tsc",
+    "build": "./node_modules/.bin/rimraf ./build && tsc",
     "staging": "npm run build && NODE_ENV=staging node build/server.js",
     "lint": "eslint . --ext .ts",
     "lint-and-fix": "eslint . --ext .ts --fix",
