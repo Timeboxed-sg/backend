@@ -4,11 +4,9 @@
   "description": "Backend And APIs",
   "main": "server.ts",
   "scripts": {
-    "tsc": "./node_modules/typescript/bin/tsc",
     "start": "nodemon ./server.ts",
     "build": "./node_modules/.bin/rimraf ./build && tsc",
     "staging": "npm run build && NODE_ENV=staging node build/server.js",
-    "postinstall": "npm run tsc",
     "lint": "eslint . --ext .ts",
     "lint-and-fix": "eslint . --ext .ts --fix",
     "test": "echo \"Error: no test specified\" && exit 1"
