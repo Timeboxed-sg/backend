@@ -70,7 +70,7 @@ router.post('/access-pass', async (req, res) => {
   }).exec();
 
   if (!pass) {
-    return sendJSONResponse(res, 204, 'Pass not present/valid');
+    return sendJSONResponse(res, 200, 'Pass not present/valid');
   }
 
   if (pass.isExpired) {
@@ -106,7 +106,7 @@ router.post('/mark-expired', async (req, res) => {
   }).exec();
 
   if (!pass) {
-    return sendJSONResponse(res, 204, 'Pass not present/valid');
+    return sendJSONResponse(res, 200, 'Pass not present/valid');
   }
 
   pass.isExpired = true;

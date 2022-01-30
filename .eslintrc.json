@@ -30,6 +30,6 @@
         "no-restricted-syntax": "off",
         "guard-for-in": "off",
         "no-case-declarations": "off",
-        "no-underscore-dangle": "off"
+        "no-underscore-dangle": "off",
     }
 }

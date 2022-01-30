@@ -1,9 +1,9 @@
 {
     "host": 8080,
     "mongodb": {
-        "username": "timeboxed-admin",
-        "password": "password",
-        "url": "mongodb://localhost:27017",
+        "username": "timeboxed-db",
+        "password": "hLyJINLGPRqgZVB6",
+        "url": "mongodb+srv://api.nqkg8.mongodb.net/",
         "dbName": "timeboxed-db"
     },
     "passwordSecretKey": "oTX7UpC3BYrs4979iOEmkJOy6PpMNXH1",
