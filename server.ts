@@ -15,7 +15,7 @@ const serverInit = (async () => {
   await connectDb();
 
   const corsOptions = {
-    origin: 'http://localhost:8081',
+    origin: '*',
   };
 
   app.use(cors(corsOptions));
